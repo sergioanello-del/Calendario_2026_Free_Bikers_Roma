@@ -1,0 +1,761 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Free Bikers Roma - Calendario Completo 2026</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Roboto:wght@300;400;700&display=swap');
+
+        :root {
+            --brand-orange: #ffa500;
+            --brand-dark: #0f0f0f;
+            --event-closed: #4a5568;
+        }
+
+        body {
+            background-color: var(--brand-dark);
+            color: #e0e0e0;
+            font-family: 'Roboto', sans-serif;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        .title-font {
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        /* Hero Banner Styles */
+        .hero-section {
+            height: 90vh;
+            background: linear-gradient(rgba(0,0,0,0.5), rgba(15,15,15,1)), 
+                        url('hero.jpg');
+            background-size: cover;
+            background-position: center 30%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .logo-container {
+            width: 140px;
+            height: 140px;
+            margin-bottom: 2rem;
+            filter: drop-shadow(0 0 20px rgba(255, 165, 0, 0.6));
+            animation: float 4s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-15px) rotate(2deg); }
+        }
+
+        .animated-underline {
+            height: 4px;
+            width: 200px;
+            background: linear-gradient(90deg, transparent, var(--brand-orange), transparent);
+            margin: 1.5rem auto;
+            position: relative;
+            overflow: hidden;
+            border-radius: 2px;
+        }
+
+        .animated-underline::after {
+            content: '';
+            position: absolute;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.8), transparent);
+            animation: sweep 2.5s infinite linear;
+        }
+
+        @keyframes sweep {
+            100% { left: 100%; }
+        }
+
+        /* Card & UI Elements */
+        .card-glass {
+            background: rgba(30, 30, 30, 0.85);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 165, 0, 0.15);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card-glass:hover {
+            border-color: rgba(255, 165, 0, 0.5);
+            transform: translateY(-8px);
+            box-shadow: 0 15px 40px -10px rgba(255, 165, 0, 0.3);
+        }
+
+        .card-closed {
+            background: rgba(45, 55, 72, 0.4);
+            border: 1px solid rgba(160, 174, 192, 0.3);
+            filter: grayscale(0.4);
+        }
+        
+        .card-closed:hover {
+            border-color: rgba(160, 174, 192, 0.6);
+            box-shadow: 0 15px 40px -10px rgba(0, 0, 0, 0.5);
+        }
+
+        .orange-text {
+            color: var(--brand-orange);
+        }
+
+        .timeline-line {
+            position: absolute;
+            left: 20px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(to bottom, transparent, var(--brand-orange), #ff4500, transparent);
+        }
+
+        @media (min-width: 768px) {
+            .timeline-line {
+                left: 50%;
+                transform: translateX(-50%);
+            }
+        }
+
+        .timeline-dot {
+            position: absolute;
+            left: 20px;
+            transform: translate(-50%, 0);
+            width: 3rem;
+            height: 3rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 9999px;
+            z-index: 10;
+        }
+
+        .dot-offset {
+            margin-top: 1.5rem;
+        }
+
+        @media (min-width: 768px) {
+            .timeline-dot {
+                left: 50%;
+            }
+        }
+
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease-in-out, opacity 0.3s;
+            opacity: 0;
+        }
+
+        .accordion-active .accordion-content {
+            max-height: 800px;
+            opacity: 1;
+            padding-top: 1rem;
+            padding-bottom: 1rem;
+        }
+
+        .accordion-active .fa-chevron-down {
+            transform: rotate(180deg);
+        }
+
+        .curiosity-item {
+            background: rgba(255, 255, 255, 0.03);
+            border-left: 3px solid var(--brand-orange);
+            margin-bottom: 0.75rem;
+            padding: 0.75rem 1rem;
+            border-radius: 0 8px 8px 0;
+            font-size: 0.95rem;
+            line-height: 1.4;
+            text-align: left;
+        }
+
+        .curiosity-item-closed {
+            border-left-color: #a0aec0;
+        }
+
+        #galleryModal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.98);
+        }
+
+        .modal-content {
+            margin: auto;
+            display: block;
+            max-width: 90%;
+            max-height: 75vh;
+            object-fit: contain;
+        }
+
+        /* Gallery Button CTA Style */
+        .btn-gallery-cta {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 12px 24px;
+            background: var(--brand-orange);
+            color: white;
+            border-radius: 12px;
+            font-weight: 800;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            letter-spacing: 0.1em;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(255, 165, 0, 0.3);
+            border: none;
+            margin: 0 auto;
+        }
+
+        .btn-gallery-cta:hover {
+            background: #ffb733;
+            transform: scale(1.05);
+            box-shadow: 0 6px 20px rgba(255, 165, 0, 0.5);
+        }
+
+        .btn-closed {
+            background: #4a5568;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .btn-closed:hover {
+            background: #718096;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+        }
+        
+        /* Modal UI helpers */
+        .image-counter {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: white;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1rem;
+            background: rgba(0,0,0,0.5);
+            padding: 5px 15px;
+            border-radius: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Hero Banner Section -->
+    <section class="hero-section">
+        <div class="logo-container">
+            <img src="logo.png"  border="0" alt="">
+        </div>
+
+        <div class="text-center px-4 relative z-10">
+            <h2 class="text-white text-lg md:text-2xl font-bold tracking-[0.5em] uppercase mb-2 opacity-90 drop-shadow-md">Free Bikers Roma</h2>
+            <h1 class="title-font text-5xl md:text-9xl font-bold text-white uppercase tracking-tighter drop-shadow-[0_10px_10px_rgba(0,0,0,0.8)]">
+                Roadmap <span class="orange-text">2026</span>
+            </h1>
+            
+            <div class="animated-underline"></div>
+            
+            <p class="text-xl md:text-3xl text-gray-200 italic mt-6 max-w-3xl mx-auto drop-shadow-md">
+                "Oltre l'asfalto, dove batte il cuore del club."
+            </p>
+
+            <div class="mt-12 flex flex-wrap justify-center gap-6">
+                <a href="#calendar" class="bg-orange-600 hover:bg-orange-500 text-white px-10 py-5 rounded-full font-bold transition-all shadow-xl hover:shadow-orange-500/50 flex items-center gap-3 text-lg uppercase tracking-wider">
+                    <i class="fas fa-motorcycle"></i> Inizia il Viaggio
+                </a>
+                <div class="flex items-center gap-3 px-8 py-5 rounded-full border-2 border-orange-500/30 backdrop-blur-md text-white font-bold bg-black/20">
+                    <i class="fas fa-users orange-text text-xl"></i> 45 BIKERS & ZAVORRINE
+                </div>
+            </div>
+        </div>
+
+        <div class="absolute bottom-10 left-1/2 -translate-x-1/2 animate-bounce">
+            <i class="fas fa-chevron-down text-orange-500 text-3xl"></i>
+        </div>
+    </section>
+
+    <!-- Calendar Timeline Section -->
+    <section id="calendar" class="relative max-w-6xl mx-auto px-4 py-12">
+        <div class="timeline-line hidden md:block"></div>
+        
+        <!-- TAPPA 1 CONCLUSA: SERMONETA -->
+        <div class="flex flex-col md:flex-row items-start mb-24 relative">
+            <div class="timeline-dot dot-offset bg-slate-800 border-4 border-slate-500 shadow-[0_0_20px_rgba(100,100,100,0.6)]">
+                <i class="fas fa-check text-slate-300 text-sm"></i>
+            </div>
+            <div class="md:w-1/2 md:pr-20 md:text-right w-full">
+                <div class="card-glass card-closed p-8 rounded-3xl shadow-2xl relative overflow-hidden text-center md:text-right">
+                    <div class="flex justify-between md:justify-end items-center gap-4 mb-2">
+                         <span class="text-slate-400 font-bold text-sm tracking-widest uppercase bg-slate-900/50 px-3 py-1 rounded-full border border-slate-500/30 italic">Evento Concluso</span>
+                         <span class="text-slate-300 font-bold text-xl tracking-widest uppercase">1 Febbraio</span>
+                    </div>
+                    <h3 class="title-font text-3xl font-bold mt-2 uppercase text-white">Sermoneta & Castello Caetani</h3>
+                    
+                    <div class="mt-6 text-left border-t border-slate-500/20 pt-4 cursor-pointer group" onclick="toggleAccordion(this)">
+                        <div class="flex justify-between items-center text-slate-400 font-bold mb-2 group-hover:text-slate-200 transition-colors">
+                            <span class="text-xs tracking-[0.2em] uppercase text-left">Storia & Curiosità</span>
+                            <i class="fas fa-chevron-down transition-transform duration-300"></i>
+                        </div>
+                        <div class="accordion-content">
+                            <div class="curiosity-item curiosity-item-closed"><strong>Il Castello Caetani:</strong> Una fortezza del XIII secolo che ha ospitato Papi e sovrani, celebre per le sue imponenti mura e le carceri affrescate dai prigionieri.</div>
+                            <div class="curiosity-item curiosity-item-closed"><strong>Borgo Arancione:</strong> Sermoneta è riconosciuta come uno dei borghi medievali meglio conservati d'Italia, con un impianto urbanistico a chiocciola unico.</div>
+                            <div class="curiosity-item curiosity-item-closed"><strong>Curva del Belvedere:</strong> La salita verso il borgo offre un affaccio spettacolare sulla Pianura Pontina e i Giardini di Ninfa.</div>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-6 flex justify-center md:justify-end">
+                        <a href="https://sergioanello-del.github.io/Free_Bikers_Roma_1_febbraio/" target="_blank" class="btn-gallery-cta btn-closed w-full md:w-auto">
+                            <i class="fas fa-external-link-alt"></i>
+                            <span>Vai Alla Pagina Evento</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="md:w-1/2 w-full mt-4 md:mt-0"></div>
+        </div>
+
+
+
+
+
+        <!-- TAPPA 2: Sperlonga: Villa di Tberio -->
+        <div class="flex flex-col md:flex-row-reverse items-start mb-24 relative">
+            <div class="timeline-dot dot-offset bg-black border-4 border-orange-500 shadow-[0_0_20px_rgba(255,165,0,0.6)]">
+                <i class="fas fa-ship text-orange-500 text-sm"></i>
+            </div>
+            <div class="md:w-1/2 md:pl-20 w-full">
+                <div class="card-glass p-8 rounded-3xl shadow-2xl relative overflow-hidden text-center md:text-left">
+                    <span class="orange-text font-bold text-xl tracking-widest uppercase">22 Febbraio</span>
+                    <h3 class="title-font text-3xl font-bold mt-2 uppercase">Sperlonga: Villa di Tiberio</h3>
+                    <div class="mt-6 text-left border-t border-orange-500/20 pt-4 cursor-pointer group" onclick="toggleAccordion(this)">
+                        <div class="flex justify-between items-center text-orange-400 font-bold mb-2 group-hover:text-orange-300 transition-colors">
+                            <span class="text-xs tracking-[0.2em] uppercase">Storia & Curiosità</span>
+                            <i class="fas fa-chevron-down transition-transform duration-300"></i>
+                        </div>
+                        <div class="accordion-content">
+                            <div class="curiosity-item"><strong>L'Antro di Tiberio:</strong><strong>Piscine per pesci (e per il gusto):</strong> La villa era dotata di un sofisticato sistema di peschiere (vasche per l'itticoltura) collegate direttamente al mare. Non servivano solo per bellezza: Tiberio, amante della buona tavola, le usava per allevare pesci pregiati da servire freschi durante i banchetti. Alcune di queste vasche sono ancora perfettamente visibili intorno alla grotta..</div>
+                            <div class="curiosity-item"><strong>Odissea di Marmo: </strong>La grotta era arredata con un ciclo di sculture monumentali che raccontavano i momenti chiave dell'Odissea. È considerato uno dei ritrovamenti archeologici più importanti del XX secolo perché dimostra che gli imperatori romani amavano circondarsi di "opere a tema" per identificarsi con gli eroi del mito (in questo caso, Ulisse).</div>
+                            <div class="curiosity-item"><strong>Il "Lacus" centrale: </strong>Al centro della grotta si trovava una vasca rettangolare che fungeva da sala da pranzo estiva. Al centro di questa vasca sorgeva un isolotto artificiale che ospitava il triclinio imperiale. Immagina la scena: cenare circondati dall'acqua, con il rumore delle onde e statue colossali che spuntano dall'oscurità della grotta.</div>
+                        </div>
+                    </div>
+                    <div class="mt-6 flex justify-center md:justify-start">
+                        <button class="btn-gallery-cta w-full md:w-auto" onclick="openGallery('sperlonga')">
+                            <i class="fas fa-camera"></i>
+                            <span>Photogallery</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="md:w-1/2 w-full mt-4 md:mt-0"></div>
+        </div>
+
+
+
+
+        <!-- TAPPA 3: Sant'Oreste: Bunker Soratte -->
+        <div class="flex flex-col md:flex-row items-start mb-24 relative">
+            <div class="timeline-dot dot-offset bg-black border-4 border-orange-500 shadow-[0_0_20px_rgba(255,165,0,0.6)]">
+                <i class="fas fa-mountain text-orange-500 text-sm"></i>
+            </div>
+            <div class="md:w-1/2 md:pr-20 md:text-right w-full">
+                <div class="card-glass p-8 rounded-3xl shadow-2xl relative overflow-hidden text-center md:text-right">
+                    <span class="orange-text font-bold text-xl tracking-widest uppercase">15 Marzo</span>
+                    <h3 class="title-font text-3xl font-bold mt-2 uppercase">Sant'Oreste: Bunker Soratte</h3>
+                    <div class="mt-6 text-left border-t border-orange-500/20 pt-4 cursor-pointer group" onclick="toggleAccordion(this)">
+                        <div class="flex justify-between items-center text-orange-400 font-bold mb-2 group-hover:text-orange-300 transition-colors">
+                            <span class="text-xs tracking-[0.2em] uppercase">Storia & Curiosità</span>
+                            <i class="fas fa-chevron-down transition-transform duration-300"></i>
+                        </div>
+                        <div class="accordion-content">
+                            <div class="curiosity-item"><strong>Dalle bombe alle bibite:</strong> Originariamente progettato negli anni '30 per volere di Mussolini come rifugio antiaereo per le alte cariche del governo (le "Officine Protette del Duce"), durante l'occupazione nazista divenne il quartier generale del feldmaresciallo Albert Kesselring. La curiosità? Dopo la guerra, prima di tornare a uso militare, alcune gallerie furono utilizzate dalla popolazione locale per coltivare funghi e persino per stoccare bottiglie di una nota bevanda gassata, grazie alla temperatura costante.</div>
+                            <div class="curiosity-item"><strong>La "Città Segreta" anti-atomica:</strong> Negli anni '60, in piena Guerra Fredda, una parte del bunker fu segretamente riconvertita dalla NATO in un rifugio anti-atomico destinato alla Presidenza della Repubblica. Le gallerie furono rinforzate per resistere a un attacco nucleare diretto, complete di sistemi di depurazione dell'aria e scorte per sopravvivere mesi sotto terra.</div>
+                            <div class="curiosity-item"><strong>L'oro del Soratte:</strong> Esiste una leggenda, mai del tutto smentita, secondo cui i nazisti avrebbero nascosto nel bunker parte dell'oro della Banca d'Italia (circa 70 tonnellate in lingotti) prima di ritirarsi verso il nord. Nonostante numerose ricerche e scavi effettuati nel dopoguerra, il tesoro non è mai stato trovato, alimentando il mistero che avvolge i km di tunnel scavati nella roccia calcarea.</div>
+                        </div>
+                    </div>
+                    <div class="mt-6 flex justify-center md:justify-end">
+                        <button class="btn-gallery-cta w-full md:w-auto" onclick="openGallery('soratte')">
+                            <i class="fas fa-camera"></i>
+                            <span>Photogallery</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="md:w-1/2 w-full mt-4 md:mt-0"></div>
+        </div>
+
+
+
+
+        <!-- TAPPA 4: Roccamorice: Eremo di S. Bartolomeo -->
+        <div class="flex flex-col md:flex-row-reverse items-start mb-24 relative">
+            <div class="timeline-dot dot-offset bg-black border-4 border-orange-500 shadow-[0_0_20px_rgba(255,165,0,0.6)]">
+                <i class="fas fa-ship text-orange-500 text-sm"></i>
+            </div>
+            <div class="md:w-1/2 md:pl-20 w-full">
+                <div class="card-glass p-8 rounded-3xl shadow-2xl relative overflow-hidden text-center md:text-left">
+                    <span class="orange-text font-bold text-xl tracking-widest uppercase">12 aprile</span>
+                    <h3 class="title-font text-3xl font-bold mt-2 uppercase">Roccamorice: Eremo di S. Bartolomeo</h3>
+                    <div class="mt-6 text-left border-t border-orange-500/20 pt-4 cursor-pointer group" onclick="toggleAccordion(this)">
+                        <div class="flex justify-between items-center text-orange-400 font-bold mb-2 group-hover:text-orange-300 transition-colors">
+                            <span class="text-xs tracking-[0.2em] uppercase">Storia & Curiosità</span>
+                            <i class="fas fa-chevron-down transition-transform duration-300"></i>
+                        </div>
+                        <div class="accordion-content">
+                            <div class="curiosity-item"><strong>Costruito "nella" roccia:</strong> A differenza di molte strutture che poggiano sul terreno, l'eremo è letteralmente scavato all'interno di una balconata rocciosa naturale. Fu ricostruito intorno al 1250 da Pietro da Morrone (che divenne poi Papa Celestino V), il quale scelse questo luogo proprio per la sua estrema solitudine e il silenzio quasi mistico.</div>
+                            <div class="curiosity-item"><strong>L'acqua "miracolosa":</strong> All'interno dell'eremo si trova una piccola sorgente d'acqua chiamata "Fonte di San Bartolomeo". Secondo una credenza popolare molto radicata, quest'acqua avrebbe proprietà curative; per secoli i fedeli hanno strofinato il corpo contro le pareti umide o bevuto l'acqua convinti della sua natura miracolosa.</div>
+                            <div class="curiosity-item"><strong>Il misticismo del paesaggio:</strong> Per raggiungere l'eremo bisogna percorrere un sentiero che offre una vista spettacolare sul Vallone di Santo Spirito. La particolarità è che l'eremo è talmente ben mimetizzato nella roccia che rimane completamente invisibile fino a quando non ci si trova a pochi metri di distanza, quasi volesse proteggersi dagli sguardi indiscreti.</div>
+                        </div>
+                    </div>
+                    <div class="mt-6 flex justify-center md:justify-start">
+                        <button class="btn-gallery-cta w-full md:w-auto" onclick="openGallery('roccamorice')">
+                            <i class="fas fa-camera"></i>
+                            <span>Photogallery</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="md:w-1/2 w-full mt-4 md:mt-0"></div>
+        </div>
+
+
+
+
+
+        <!-- TAPPA 5: Gargano: incontro con motoclub Jels -->
+        <div class="flex flex-col md:flex-row items-start mb-24 relative">
+            <div class="timeline-dot dot-offset bg-black border-4 border-orange-500 shadow-[0_0_20px_rgba(255,165,0,0.6)]">
+                <i class="fas fa-mountain text-orange-500 text-sm"></i>
+            </div>
+            <div class="md:w-1/2 md:pr-20 md:text-right w-full">
+                <div class="card-glass p-8 rounded-3xl shadow-2xl relative overflow-hidden text-center md:text-right">
+                    <span class="orange-text font-bold text-xl tracking-widest uppercase">1/3 maggio</span>
+                    <h3 class="title-font text-3xl font-bold mt-2 uppercase">Gargano: incontro con motoclub Jelsi</h3>
+                    <div class="mt-6 text-left border-t border-orange-500/20 pt-4 cursor-pointer group" onclick="toggleAccordion(this)">
+                        <div class="flex justify-between items-center text-orange-400 font-bold mb-2 group-hover:text-orange-300 transition-colors">
+                            <span class="text-xs tracking-[0.2em] uppercase">Storia & Curiosità</span>
+                            <i class="fas fa-chevron-down transition-transform duration-300"></i>
+                        </div>
+                        <div class="accordion-content">
+                            <div class="curiosity-item"><strong>Una "foresta fossile" nel Mediterraneo: </strong>La Foresta Umbra, cuore verde del Parco Nazionale, è un ecosistema rarissimo. Il nome non deriva dalla regione Umbria, ma dal latino umbra (cupa, ombrosa), per via della sua fittissima vegetazione. Qui si verifica il fenomeno del macrosomatismo: a causa di condizioni climatiche particolari, alcune piante (come i faggi o i pini) crescono fino a dimensioni giganti, molto oltre la norma.</div>
+                            <div class="curiosity-item"><strong>L'arcipelago che "cammina": </strong>Le Isole Tremiti, situate al largo del Gargano, sono geologicamente legate al promontorio, ma una leggenda classica vuole che siano nate dai massi scagliati in mare dall'eroe Diomede. Curiosità naturale: le isole si stanno "muovendo" (lentamente) a causa dei movimenti tettonici dell'Adriatico, allontanandosi gradualmente dalla costa.</div>
+                            <div class="curiosity-item"><strong>La Montagna Sacra e i Crociati:</strong> Il Gargano è stato per secoli una delle mete di pellegrinaggio più importanti della cristianità. Il Santuario di San Michele Arcangelo a Monte Sant'Angelo è l'unico al mondo a non essere stato consacrato da mano umana, ma (secondo la tradizione) dall'Arcangelo stesso. Nel Medioevo, i cavalieri diretti in Terra Santa facevano tappa qui per incidere le proprie mani o le proprie armi sulla roccia come segno di passaggio.</div>
+                        </div>
+                    </div>
+                    <div class="mt-6 flex justify-center md:justify-end">
+                        <button class="btn-gallery-cta w-full md:w-auto" onclick="openGallery('gargano')">
+                            <i class="fas fa-camera"></i>
+                            <span>Photogallery</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="md:w-1/2 w-full mt-4 md:mt-0"></div>
+        </div>
+
+
+
+
+
+        <!-- TOUR ALPINO 2026 -->
+        <div class="mb-32 relative z-20">
+             <div class="bg-gradient-to-br from-orange-600 to-red-800 p-12 rounded-[3rem] shadow-[0_25px_60px_rgba(255,69,0,0.5)] text-center max-w-4xl mx-auto transform hover:scale-[1.03] transition-all border-4 border-white/20 relative overflow-hidden">
+                <div class="absolute -top-12 -right-12 opacity-10 text-[14rem] rotate-12"><i class="fas fa-mountain"></i></div>
+                <span class="text-white/90 font-bold text-xl tracking-[0.4em] uppercase block mb-4">L'Evento dell'Anno</span>
+                <h3 class="title-font text-5xl md:text-7xl font-black text-white drop-shadow-2xl uppercase italic">TOUR ALPINO 2026</h3>
+                <p class="text-white font-bold text-2xl md:text-3xl mt-6 italic underline decoration-orange-300 underline-offset-8">27 GIUGNO — 4 LUGLIO</p>
+                
+                <div class="mt-12 text-left bg-black/40 backdrop-blur-xl p-8 rounded-3xl border border-white/15">
+                    <h4 class="text-orange-300 font-bold mb-4 uppercase tracking-widest flex items-center gap-3">
+                        <i class="fas fa-compass animate-spin-slow"></i> Highlights del Tour
+                    </h4>
+                    <div class="grid md:grid-cols-3 gap-6">
+                        <div class="bg-white/5 p-4 rounded-2xl hover:bg-white/10 transition-colors">
+                            <strong class="block text-orange-400 mb-1 text-lg">STELVIO</strong>
+                            Il Passo dello Stelvio, situato a 2.758 m s.l.m., è il valico automobilistico più alto d'Italia e il secondo in Europa. Collegando la Valtellina con la Val Venosta.
+                        </div>
+                        <div class="bg-white/5 p-4 rounded-2xl hover:bg-white/10 transition-colors">
+                            <strong class="block text-orange-400 mb-1 text-lg">FORRA</strong>
+                            In geomorfologia, la forra (o gola) è una valle profonda e stretta con pareti a picco, generata da una potente azione di erosione incisiva da parte di un corso d'acqua.
+                        </div>
+                        <div class="bg-white/5 p-4 rounded-2xl hover:bg-white/10 transition-colors">
+                            <strong class="block text-orange-400 mb-1 text-lg">SVIZZERA</strong>
+                            La Svizzera è una federazione dell'Europa centrale definita dalla sua storica neutralità politica, da un sistema di democrazia diretta unico al mondo e da un'economia ad alto valore aggiunto.
+                        </div>
+                    </div>
+                </div>
+                <button class="mt-10 bg-white text-orange-700 px-12 py-5 rounded-full font-black uppercase tracking-tighter hover:bg-orange-50 transition-all shadow-2xl flex items-center gap-4 mx-auto" onclick="openGallery('stelvio')">
+                    <i class="fas fa-images"></i> Sfoglia Anteprime Alpine
+                </button>
+             </div>
+        </div>
+
+
+
+
+
+
+
+
+
+
+
+        <!-- TAPPA 6: Grizzana  -->
+        <div class="flex flex-col md:flex-row-reverse items-start mb-24 relative">
+            <div class="timeline-dot dot-offset bg-black border-4 border-orange-500 shadow-[0_0_20px_rgba(255,165,0,0.6)]">
+                <i class="fas fa-palette text-orange-500 text-sm"></i>
+            </div>
+            <div class="md:w-1/2 md:pl-20 w-full">
+                <div class="card-glass p-8 rounded-3xl shadow-2xl relative overflow-hidden text-center md:text-left">
+                    <span class="orange-text font-bold text-xl tracking-widest uppercase">11 - 13 Settembre</span>
+                    <h3 class="title-font text-3xl font-bold mt-2 uppercase">Grizzana Morandi: La Rocchetta Mattei</h3>
+                    <div class="mt-6 text-left border-t border-orange-500/20 pt-4 cursor-pointer group" onclick="toggleAccordion(this)">
+                        <div class="flex justify-between items-center text-orange-400 font-bold mb-2 group-hover:text-orange-300 transition-colors">
+                            <span class="text-xs tracking-[0.2em] uppercase">Storia & Curiosità</span>
+                            <i class="fas fa-chevron-down transition-transform duration-300"></i>
+                        </div>
+                        <div class="accordion-content">
+                            <div class="curiosity-item"><strong>Il tempio dell'Elettromeopatia:</strong> Il Conte Cesare Mattei la costruì non solo come residenza, ma come quartier generale per la diffusione della sua "Elettromeopatia". Questa medicina alternativa (basata su estratti vegetali e "fluidi elettrici") ebbe un successo planetario nell'800, attirando pazienti illustri come lo Zar Alessandro II e venendo citata persino da Dostoevskij ne I fratelli Karamazov.</div>
+                            <div class="curiosity-item"><strong>Un puzzle di stili (e di inganni): </strong>L'architettura è un mix eclettico di stili moresco, neogotico e medievale. Una delle stanze più famose, il Cortile dei Leoni, è una riproduzione in miniatura dell'Alhambra di Granada. Molti dettagli che sembrano marmi pregiati o legni orientali sono in realtà "trompe-l'œil" dipinti con estrema abilità per confondere i visitatori.</div>
+                            <div class="curiosity-item"><strong>La simbologia e l'occulto: </strong>Il castello è intriso di simbolismi numerici e astrologici. Si dice che il Conte abbia progettato gli spazi per guidare l'ospite in un percorso di purificazione. Anche la sua tomba, situata all'interno della cappella della Rocchetta, è priva di nome e decorata con maioliche che richiamano lo stile arabo, a sottolineare il suo spirito eccentrico e fuori dagli schemi.</div>
+                        </div>
+                    </div>
+                    <div class="mt-6 flex justify-center md:justify-end">
+                        <button class="btn-gallery-cta w-full md:w-auto" onclick="openGallery('grizzana')">
+                            <i class="fas fa-camera"></i>
+                            <span>Photogallery</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="md:w-1/2 w-full mt-4 md:mt-0"></div>
+        </div>
+
+
+
+
+
+
+
+
+
+        <!-- TAPPA 5: GRIZZANA MORANDI -->
+        <div class="flex flex-col md:flex-row items-start mb-24 relative">
+            <div class="timeline-dot dot-offset bg-black border-4 border-orange-500 shadow-[0_0_20px_rgba(255,165,0,0.6)]">
+                <i class="fas fa-chess-rook text-orange-500 text-sm"></i>
+            </div>
+            <div class="md:w-1/2 md:pr-20 md:text-right w-full">
+                <div class="card-glass p-8 rounded-3xl shadow-2xl relative overflow-hidden text-center md:text-right">
+                    <span class="orange-text font-bold text-xl tracking-widest uppercase">25 ottobre</span>
+                    <h3 class="title-font text-3xl font-bold mt-2 uppercase">Valogno: i Murales</h3>
+                    <div class="mt-6 text-left border-t border-orange-500/20 pt-4 cursor-pointer group" onclick="toggleAccordion(this)">
+                        <div class="flex justify-between items-center text-orange-400 font-bold mb-2 group-hover:text-orange-300 transition-colors">
+                            <span class="text-xs tracking-[0.2em] uppercase">Storia & Curiosità</span>
+                            <i class="fas fa-chevron-down transition-transform duration-300"></i>
+                        </div>
+                        <div class="accordion-content">
+                            <div class="curiosity-item"><strong>Il borgo "grigio" diventato arcobaleno:</strong> Fino a pochi anni fa, Valogno era un paesino quasi fantasma, destinato all'oblio tipico di molti piccoli centri rurali. La trasformazione è iniziata grazie all'iniziativa di una coppia, Giovanni e Dora, che dopo aver lasciato Roma hanno deciso di dare nuova vita al borgo invitando artisti a dipingere i muri delle case, trasformandolo in un museo a cielo aperto.</div>
+                            <div class="curiosity-item"><strong>Murales con un "anima" sociale:</strong> A differenza di altri borghi dipinti, i murales di Valogno non sono solo decorativi. Fanno parte del progetto "Valogno Borgo d'Arte", che mette al centro il concetto di "buon vivere" e accoglienza. Molte opere rappresentano scene di vita quotidiana, fiabe o messaggi di amore e libertà, come il celebre murale dedicato a Frida Kahlo.</div>
+                            <div class="curiosity-item"><strong>La "Galleria a cielo aperto" perenne:</strong> Il borgo non ha orari di chiusura né biglietti d'ingresso. Camminando tra i vicoli, è comune che gli abitanti stessi (poche decine ormai) invitino i visitatori a entrare in casa per un caffè, rendendo l'esperienza artistica un esperimento sociale di comunità, dove il confine tra opera d'arte e vita vissuta svanisce.</div>
+                        </div>
+                    </div>
+                    <div class="mt-6 flex justify-center md:justify-end">
+                        <button class="btn-gallery-cta w-full md:w-auto" onclick="openGallery('valogno')">
+                            <i class="fas fa-camera"></i>
+                            <span>Photogallery</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="md:w-1/2 w-full mt-4 md:mt-0"></div>
+        </div>
+
+
+
+
+
+
+
+
+
+
+
+
+     <!-- GRAN FINALE -->
+		<div class="flex flex-col md:flex-row-reverse items-start mb-24 relative">
+            <div class="timeline-dot dot-offset bg-black border-4 border-orange-500 shadow-[0_0_20px_rgba(255,165,0,0.6)]">
+                <i class="fas fa-palette text-orange-500 text-sm"></i>
+            </div>
+            <div class="md:w-1/2 md:pl-20 w-full">
+                <div class="card-glass p-10 rounded-3xl border-2 border-orange-500/50 bg-gradient-to-l from-orange-500/20 to-transparent text-center md:text-left">
+                    <span class="orange-text font-black text-2xl tracking-[0.3em] uppercase">Gran Finale</span>
+                    <h3 class="title-font text-4xl font-bold mt-3 uppercase text-white">Novembre a Sorpresa</h3>
+                    <p class="text-gray-300 mt-6 text-lg leading-relaxed italic">
+                        "Un luogo che ancora non conoscete, un'ultima avventura per chiudere l'anno in bellezza. Preparate le moto, la sorpresa sarà epica."
+                    </p>
+                    <div class="mt-6 flex justify-center md:justify-end gap-2 text-orange-500">
+                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="md:w-1/2 w-full mt-4 md:mt-0"></div>
+        </div>
+
+
+    </section>
+
+
+
+
+    <!-- Modal Lightbox -->
+    <div id="galleryModal" class="hidden flex items-center justify-center backdrop-blur-3xl">
+        <span class="absolute top-8 right-10 text-white text-6xl cursor-pointer hover:text-orange-500 transition-all z-[1100]" onclick="closeModal()">&times;</span>
+        <button class="absolute left-10 text-white text-6xl hover:text-orange-500 transition-all z-[1100]" onclick="changeImage(-1)"><i class="fas fa-chevron-left"></i></button>
+        <div class="text-center px-6 max-w-5xl">
+            <img class="modal-content rounded-3xl border-4 border-orange-500/50 shadow-[0_0_80px_rgba(255,165,0,0.3)] transition-all duration-500" id="modalImg">
+            <div id="caption" class="mt-10 text-orange-400 font-bold title-font text-3xl uppercase tracking-widest"></div>
+            <div id="imageCounter" class="image-counter">1 / 1</div>
+        </div>
+        <button class="absolute right-10 text-white text-6xl hover:text-orange-500 transition-all z-[1100]" onclick="changeImage(1)"><i class="fas fa-chevron-right"></i></button>
+    </div>
+
+    <!-- Official Communication Footer -->
+    <footer class="bg-black py-24 px-10 text-center border-t-4 border-orange-600 relative overflow-hidden">
+        <div class="max-w-5xl mx-auto relative z-10">
+            <div class="inline-block p-6 bg-orange-600 rounded-full mb-8">
+                <i class="fas fa-bullhorn text-4xl text-white"></i>
+            </div>
+            <h2 class="title-font text-4xl font-black mb-6 uppercase tracking-widest text-white">Canale Ufficiale</h2>
+            <div class="flex justify-center gap-12 text-orange-500 text-5xl mb-16">
+                <i class="fab fa-whatsapp hover:text-white transition-all cursor-pointer"></i>
+                <i class="fab fa-facebook hover:text-white transition-all cursor-pointer"></i>
+                <i class="fab fa-instagram hover:text-white transition-all cursor-pointer"></i>
+            </div>
+            <p class="title-font text-orange-600 font-bold text-2xl">FREE BIKERS ROMA</p>
+        </div>
+    </footer>
+
+    <script>
+        function toggleAccordion(element) {
+            element.classList.toggle('accordion-active');
+        }
+
+        // --- DATI PHOTOGALLERY (Puoi sostituire questi URL con le tue foto vere) ---
+        const galleryData = {
+            sperlonga: [
+                { src: 'sperlonga_villa_di_tberio/01_sperlonga.jpg', title: 'Sperlonga' },
+                { src: 'sperlonga_villa_di_tberio/02_villa-di-tiberio.jpg', title: 'Villa di Tiberio' },
+                { src: 'sperlonga_villa_di_tberio/03_parco_archeologico_della_villa_di_tiberio.jpg', title: 'Parco archeologico della Villa di Tiberio' }
+            ],
+            soratte: [
+                { src: 'bunker_soratte/01.jpg', title: 'Sant\'Oreste - Ingresso Bunker' },
+                { src: 'bunker_soratte/02.jpg', title: 'Bunker Soratte, i segreti del rifugio' },
+                { src: 'bunker_soratte/03.jpg', title: 'Bunker Soratte, i Magazzini' }
+            ],
+            roccamorice: [
+                { src: 'roccamorice/01.jpg', title: 'Majella - Paesaggio Abruzzese' },
+                { src: 'roccamorice/02.jpg', title: 'Eremo di San Bartolomeo' },
+                { src: 'roccamorice/03.jpg', title: 'Tornanti Majella' }
+            ],
+            gargano: [
+                { src: 'gargano/01.jpg', title: 'Il Gargano' },
+                { src: 'gargano/02.jpg', title: 'Il Gargano' },
+                { src: 'gargano/03.jpg', title: 'Il Gargano' }
+            ],
+            stelvio: [
+                { src: 'tour_alpino/01.jpg', title: 'Passo dello Stelvio' },
+                { src: 'tour_alpino/02.jpg', title: 'Strada della forra' },
+                { src: 'tour_alpino/03.jpg', title: 'Svizzera' }
+            ],
+            grizzana: [
+                { src: 'grizzana_morandi/01.jpg', title: 'Grizzana Morandi' },
+                { src: 'grizzana_morandi/02.jpg', title: 'La Rocchetta Mattei' },
+                { src: 'grizzana_morandi/03.jpg', title: 'La Rocchetta Mattei' }
+            ],
+          
+            valogno: [
+                { src: 'valogno_murales/01.jpg', title: 'Murales di Valogno' },
+                { src: 'valogno_murales/02.jpg', title: 'Colori nel Borgo' },
+                { src: 'valogno_murales/03.jpg', title: 'I Murales' }
+            ]
+        };
+
+        let currentGallery = [];
+        let currentIndex = 0;
+
+        function openGallery(eventKey) {
+            currentGallery = galleryData[eventKey] || [];
+            if (currentGallery.length === 0) return;
+            currentIndex = 0;
+            updateModal();
+            document.getElementById('galleryModal').style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        }
+
+        function updateModal() {
+            const img = currentGallery[currentIndex];
+            const modalImg = document.getElementById("modalImg");
+            
+            // Aggiungiamo un effetto di caricamento
+            modalImg.style.opacity = '0';
+            setTimeout(() => {
+                modalImg.src = img.src + "?auto=format&fit=crop&w=1200&q=80";
+                modalImg.onload = () => { modalImg.style.opacity = '1'; };
+                document.getElementById("caption").innerText = img.title;
+                document.getElementById("imageCounter").innerText = (currentIndex + 1) + " / " + currentGallery.length;
+            }, 300);
+        }
+
+        function changeImage(step) {
+            currentIndex = (currentIndex + step + currentGallery.length) % currentGallery.length;
+            updateModal();
+        }
+
+        function closeModal() {
+            document.getElementById('galleryModal').style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+
+        // Chiudi con tasto ESC
+        document.addEventListener('keydown', function(e) {
+            if (e.key === "Escape") closeModal();
+            if (e.key === "ArrowRight") changeImage(1);
+            if (e.key === "ArrowLeft") changeImage(-1);
+        });
+
+        // Osservatore per animazioni al caricamento
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('animate-in'); });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.card-glass, .bg-gradient-to-br').forEach(card => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(30px)';
+            card.style.transition = 'all 0.8s cubic-bezier(0.2, 0.8, 0.2, 1)';
+            observer.observe(card);
+        });
+
+        const style = document.createElement('style');
+        style.innerHTML = `
+            .animate-in { opacity: 1 !important; transform: translateY(0) !important; }
+            .animate-spin-slow { animation: spin 10s linear infinite; }
+            @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        `;
+        document.head.appendChild(style);
+
+        window.onclick = function(e) { if (e.target == document.getElementById('galleryModal')) closeModal(); }
+    </script>
+</body>
+</html>
