@@ -251,6 +251,21 @@
             border-radius: 20px;
         }
     </style>
+
+
+	<style>
+		@keyframes blink-effect {
+			0% { box-shadow: 0 0 5px rgba(255, 0, 0, 0.2); border-color: transparent; }
+			50% { box-shadow: 0 0 25px rgba(255, 0, 0, 0.6); border-color: rgba(255, 0, 0, 0.5); }
+			100% { box-shadow: 0 0 5px rgba(255, 0, 0, 0.2); border-color: transparent; }
+		}
+
+		.blink-card {
+			border: 2px solid transparent;
+			animation: blink-effect 2s infinite ease-in-out;
+		}
+</style>
+   
 </head>
 <body>
 
@@ -305,7 +320,7 @@
                     <h3 class="title-font text-3xl font-bold mt-2 uppercase text-white">Sermoneta & Castello Caetani</h3>
                     
                     <div class="mt-6 text-left border-t border-slate-500/20 pt-4 cursor-pointer group" onclick="toggleAccordion(this)">
-                        <div class="flex justify-between items-center text-slate-400 font-bold mb-2 group-hover:text-slate-200 transition-colors">
+                       <!--  <div class="flex justify-between items-center text-slate-400 font-bold mb-2 group-hover:text-slate-200 transition-colors">
                             <span class="text-xs tracking-[0.2em] uppercase text-left">Storia & Curiosità</span>
                             <i class="fas fa-chevron-down transition-transform duration-300"></i>
                         </div>
@@ -313,7 +328,7 @@
                             <div class="curiosity-item curiosity-item-closed"><strong>Il Castello Caetani:</strong> Una fortezza del XIII secolo che ha ospitato Papi e sovrani, celebre per le sue imponenti mura e le carceri affrescate dai prigionieri.</div>
                             <div class="curiosity-item curiosity-item-closed"><strong>Borgo Arancione:</strong> Sermoneta è riconosciuta come uno dei borghi medievali meglio conservati d'Italia, con un impianto urbanistico a chiocciola unico.</div>
                             <div class="curiosity-item curiosity-item-closed"><strong>Curva del Belvedere:</strong> La salita verso il borgo offre un affaccio spettacolare sulla Pianura Pontina e i Giardini di Ninfa.</div>
-                        </div>
+                        </div> -->
                     </div>
                     
                     <div class="mt-6 flex justify-center md:justify-end">
@@ -327,40 +342,41 @@
             <div class="md:w-1/2 w-full mt-4 md:mt-0"></div>
         </div>
 
-
-
-
-
         <!-- TAPPA 2: Sperlonga: Villa di Tberio -->
-        <div class="flex flex-col md:flex-row-reverse items-start mb-24 relative">
-            <div class="timeline-dot dot-offset bg-black border-4 border-orange-500 shadow-[0_0_20px_rgba(255,165,0,0.6)]">
-                <i class="fas fa-ship text-orange-500 text-sm"></i>
-            </div>
-            <div class="md:w-1/2 md:pl-20 w-full">
-                <div class="card-glass p-8 rounded-3xl shadow-2xl relative overflow-hidden text-center md:text-left">
-                    <span class="orange-text font-bold text-xl tracking-widest uppercase">22 Febbraio</span>
-                    <h3 class="title-font text-3xl font-bold mt-2 uppercase">Sperlonga: Villa di Tiberio</h3>
-                    <div class="mt-6 text-left border-t border-orange-500/20 pt-4 cursor-pointer group" onclick="toggleAccordion(this)">
-                        <div class="flex justify-between items-center text-orange-400 font-bold mb-2 group-hover:text-orange-300 transition-colors">
-                            <span class="text-xs tracking-[0.2em] uppercase">Storia & Curiosità</span>
-                            <i class="fas fa-chevron-down transition-transform duration-300"></i>
-                        </div>
-                        <div class="accordion-content">
-                            <div class="curiosity-item"><strong>L'Antro di Tiberio:</strong><strong>Piscine per pesci (e per il gusto):</strong> La villa era dotata di un sofisticato sistema di peschiere (vasche per l'itticoltura) collegate direttamente al mare. Non servivano solo per bellezza: Tiberio, amante della buona tavola, le usava per allevare pesci pregiati da servire freschi durante i banchetti. Alcune di queste vasche sono ancora perfettamente visibili intorno alla grotta..</div>
-                            <div class="curiosity-item"><strong>Odissea di Marmo: </strong>La grotta era arredata con un ciclo di sculture monumentali che raccontavano i momenti chiave dell'Odissea. È considerato uno dei ritrovamenti archeologici più importanti del XX secolo perché dimostra che gli imperatori romani amavano circondarsi di "opere a tema" per identificarsi con gli eroi del mito (in questo caso, Ulisse).</div>
-                            <div class="curiosity-item"><strong>Il "Lacus" centrale: </strong>Al centro della grotta si trovava una vasca rettangolare che fungeva da sala da pranzo estiva. Al centro di questa vasca sorgeva un isolotto artificiale che ospitava il triclinio imperiale. Immagina la scena: cenare circondati dall'acqua, con il rumore delle onde e statue colossali che spuntano dall'oscurità della grotta.</div>
-                        </div>
-                    </div>
-                    <div class="mt-6 flex justify-center md:justify-start">
-                        <button class="btn-gallery-cta w-full md:w-auto" onclick="openGallery('sperlonga')">
-                            <i class="fas fa-camera"></i>
-                            <span>Photogallery</span>
-                        </button>
-                    </div>
-                </div>
-            </div>
-            <div class="md:w-1/2 w-full mt-4 md:mt-0"></div>
-        </div>
+
+
+			<div class="flex flex-col md:flex-row-reverse items-start mb-24 relative">
+				<div class="timeline-dot dot-offset bg-black border-4 border-orange-500 shadow-[0_0_20px_rgba(255,165,0,0.6)]">
+					<i class="fas fa-ship text-orange-500 text-sm"></i>
+				</div>
+				
+				<div class="md:w-1/2 md:pl-20 w-full">
+					<div class="card-glass blink-card p-8 rounded-3xl shadow-2xl relative overflow-hidden text-center md:text-left">
+
+						<span class="text-slate-400 font-bold text-sm tracking-widest uppercase bg-slate-900/50 px-3 py-1 rounded-full border border-slate-500/30 italic" style="background-color: red; color: #ffffff; margin-bottom: 10px; display: block;">
+							<center>prossimo evento</center>
+						</span>
+						
+						<span class="orange-text font-bold text-xl tracking-widest uppercase">22 Febbraio</span>
+
+						<h3 class="title-font text-3xl font-bold mt-2 uppercase">Sperlonga: Villa di Tiberio</h3>
+						
+						<div class="mt-6 text-left border-t border-orange-500/20 pt-4 cursor-pointer group" onclick="toggleAccordion(this)">
+							</div>
+
+						<div class="mt-6 flex justify-center md:justify-end">
+							<a href="https://sergioanello-del.github.io/LANDING_PAGE_Free_Bikers_Roma_22_febbraio/" target="_blank" class="btn-gallery-cta btn-closed w-full md:w-auto" style="background-color: red;">
+								<i class="fas fa-external-link-alt"></i>
+								<span>Vai Alla Pagina Evento</span>
+							</a>
+						</div>
+					</div>
+				</div>
+				<div class="md:w-1/2 w-full mt-4 md:mt-0"></div>
+			</div>
+
+
+
 
 
 
